@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 1390750530
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: example.world
+      Dependencies: {}
