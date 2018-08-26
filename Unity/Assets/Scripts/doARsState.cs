@@ -21,6 +21,7 @@ public static class doARsState
     public static List<string> found_worlds;
 
     public static string search = null;
+    public static bool newSubmission = false;
 
     public static doARs_state getNextState()
     {
