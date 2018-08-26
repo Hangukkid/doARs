@@ -20,6 +20,8 @@ public static class doARsState
 
     public static List<string> found_worlds;
 
+    public static string search = null;
+
     public static doARs_state getNextState()
     {
         switch (current_state)
