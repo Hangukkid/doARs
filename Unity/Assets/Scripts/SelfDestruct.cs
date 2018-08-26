@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SelfDestruct : MonoBehaviour
 {
+    public string name;
 
     private void Start()
     {
@@ -13,6 +14,6 @@ public class SelfDestruct : MonoBehaviour
 
     private void Update () {
         if (doARsState.current_state == doARs_state.choose_world)
-            Destroy(this);
+            Destroy(this.gameObject);
     }
 }
