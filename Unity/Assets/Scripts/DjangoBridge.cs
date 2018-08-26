@@ -51,13 +51,15 @@ public class DjangoBridge : MonoBehaviour {
             Instantiate(bundle.mainAsset);
         }
         else {
-            // GameObject core = GameObject.Find("ModifiedARCore");
-            // Transform t = core.transform;
-            // t.position += new Vector3(0,0,10);
             Handheld.Vibrate();
             UnityEngine.Object[] list_of_worlds = bundle.LoadAllAssets();
             foreach (UnityEngine.Object world in list_of_worlds) {
-                Instantiate(world);
+                GameObject core = GameObject.Find("ModifiedARCore");
+                Transform t = core.transform;
+                t.position += new Vector3(0,0,5);
+                UnityEngine.Object clone = Instantiate(world, t);
+                GameObject f = GameObject.Find(clone.name);
+                f.AddComponent<SelfDestruct>();
             }
             // Instantiate(bundle.LoadAsset(world_name));
         }
