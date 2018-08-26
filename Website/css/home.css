@@ -1,3 +1,47 @@
 .hero {
-    background: url();
+    background: black url(../assets/realfakedoors.jpg) center / cover;
 }
+
+@media (max-width:1024px) {
+    .hero {
+        background: url(../assets/realfakedoors.jpg) center / cover;
+    }
+}
+
+@media (max-width:500px) {
+    .hero {
+        background: url(../assets/Real_Fake_Doors_Salesman2.jpg) center / cover;
+    }
+}
+
+a {
+    font-size: 25px;
+    color: white;
+}
+/*=============================================helpers================================================*/
+
+.center, .center-column, .top, .right, .bottom, .left {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.center-column {
+    flex-direction: column;
+}
+
+.top    { align-items:     flex-start; }
+.right  { justify-content: flex-end;   }
+.bottom { align-items:     flex-end;   }
+.left   { justify-content: flex-start; }
+
+.single-spaced, .single-spaced * {
+    line-height: 1;
+}
+
+@media (max-width: 1024px) {
+	.desktop {
+		display: none;
+	}
+}
+
