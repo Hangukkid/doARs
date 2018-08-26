@@ -42,4 +42,11 @@ public static class doARsState
         current_state = getNextState();
         Debug.Log("changed state to " + current_state);
     }
+
+    
+    public static void goToState(doARs_state state)
+    {
+        current_state = state;
+        Debug.Log("changed state to " + current_state);
+    }
 }

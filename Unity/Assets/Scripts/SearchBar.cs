@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SearchBar : MonoBehaviour
 {
     public GameObject bar;
+    public InputField search;
     public bool buttonSearch = true;
 
     private void Start()
     {
-        //buttonSearch = true;
-        bar = GameObject.Find("InputField");
+
     }
 
     public void Button_Click()
@@ -19,6 +20,7 @@ public class SearchBar : MonoBehaviour
         if (!buttonSearch) { // if user decides to search
             //Handheld.Vibrate();
             buttonSearch = true;
+            doARsState.goToState(doARs_state.choose_world);
             bar.SetActive(true);
             
             //search for stuff
@@ -27,7 +29,8 @@ public class SearchBar : MonoBehaviour
             buttonSearch = false;
             bar = GameObject.Find("InputField");
             bar.SetActive(false);
-
+            search = bar.GetComponent<InputField>();
+            search.text = "";
             doARsState.newSubmission = true;
             doARsState.goToNextState();
             //Handheld.Vibrate();
@@ -37,6 +40,5 @@ public class SearchBar : MonoBehaviour
     public void Text_Changed(string newText)
     {
         doARsState.search = newText;
-
     }
 }

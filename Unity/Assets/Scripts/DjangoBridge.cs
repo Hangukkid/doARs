@@ -37,31 +37,34 @@ public class DjangoBridge : MonoBehaviour {
     {
         yield return new WaitUntil(() => download);
         world_name = "example";
-        if (doARsState.current_state == doARs_state.downloading) {
-            // Download the file from the URL. It will not be saved in the Cache
-            string BundleURL = "http://www.arnocular.org//handle_doARs/";
-            var headers = new Dictionary<string, string>();
-            headers.Add("world", world_name);
-            using (WWW www = new WWW(BundleURL, null, headers))
-            {
-                yield return www;
-                if (www.error != null)
-                    Debug.Log("WWW download had an error:" + www.error);
-                AssetBundle bundle = www.assetBundle;
-                if (world_name == "") {
-                    Instantiate(bundle.mainAsset);
-                }
-                else {
-                    GameObject core = GameObject.Find("ModifiedARCore");
-                    Transform t = core.transform;
-                    Instantiate(bundle.LoadAsset(world_name));
-                }
-                // Unload the AssetBundles compressed contents to conserve memory
-                Debug.Log("download asset bundle");
-                bundle.Unload(false);
-                doARsState.goToNextState();
-                download = false;
-            } // memory is freed from the web stream (www.Dispose() gets called implicitly)
-        }
+        
+        // Download the file from the URL. It will not be saved in the Cache
+        string BundleURL = "http://www.arnocular.org/handle_doARs/";
+        var headers = new Dictionary<string, string>();
+        headers.Add("world", world_name);
+        using (WWW www = new WWW(BundleURL, null, headers))
+        {
+            yield return www;
+            if (www.error != null)
+                Debug.Log("WWW download had an error:" + www.error);
+            AssetBundle bundle = www.assetBundle;
+            if (world_name == "") {
+                Instantiate(bundle.mainAsset);
+            }
+            else {
+                // GameObject core = GameObject.Find("ModifiedARCore");
+                // Transform t = core.transform;
+                // t.position += new Vector3(0,0,10);
+                Handheld.Vibrate();
+                Debug.Log(bundle.LoadAsset(world_name));
+                // Instantiate(bundle.LoadAsset(world_name));
+            }
+            // Unload the AssetBundles compressed contents to conserve memory
+            Debug.Log("download asset bundle");
+            bundle.Unload(false);
+            doARsState.goToNextState();
+            download = false;
+        } // memory is freed from the web stream (www.Dispose() gets called implicitly)
+        
     }
 }
