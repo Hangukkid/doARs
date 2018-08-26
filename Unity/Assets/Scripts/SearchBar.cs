@@ -39,6 +39,7 @@ public class SearchBar : MonoBehaviour
 
     public void Text_Changed(string newText)
     {
-        doARsState.search = newText;
+        if (GameObject.Find("InputField") != null)
+            doARsState.search = GameObject.Find("InputField").GetComponent<InputField>().text;
     }
 }

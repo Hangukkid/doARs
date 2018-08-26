@@ -2,13 +2,14 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class DjangoBridge : MonoBehaviour {
 
     private bool download = false;
 
     private void Start () {
-        StartCoroutine(Download_World(doARsState.search));
+        StartCoroutine(Download_World());
     }
 
     private void Update () {
@@ -33,38 +34,39 @@ public class DjangoBridge : MonoBehaviour {
         }
     }
 
-    public IEnumerator Download_World (string world_name)
+    public IEnumerator Download_World ()
     {
         yield return new WaitUntil(() => download);
-        world_name = "example";
-        
+        string world_name = doARsState.search;
+        Debug.Log(world_name);
         // Download the file from the URL. It will not be saved in the Cache
         string BundleURL = "http://www.arnocular.org/handle_doARs/";
-        var headers = new Dictionary<string, string>();
-        headers.Add("world", world_name);
-        using (WWW www = new WWW(BundleURL, null, headers))
-        {
-            yield return www;
-            if (www.error != null)
-                Debug.Log("WWW download had an error:" + www.error);
-            AssetBundle bundle = www.assetBundle;
-            if (world_name == "") {
-                Instantiate(bundle.mainAsset);
+        // string BundleURL = "http://127.0.0.1:2567/handle_doARs/";
+        UnityEngine.Networking.UnityWebRequest request = UnityWebRequestAssetBundle.GetAssetBundle(BundleURL, 0);
+        request.SetRequestHeader("world", world_name);
+        yield return request.Send();
+        AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
+        Debug.Log(bundle);
+        if (world_name == "") {
+            Instantiate(bundle.mainAsset);
+        }
+        else {
+            // GameObject core = GameObject.Find("ModifiedARCore");
+            // Transform t = core.transform;
+            // t.position += new Vector3(0,0,10);
+            Handheld.Vibrate();
+            UnityEngine.Object[] list_of_worlds = bundle.LoadAllAssets();
+            foreach (UnityEngine.Object world in list_of_worlds) {
+                Instantiate(world);
             }
-            else {
-                // GameObject core = GameObject.Find("ModifiedARCore");
-                // Transform t = core.transform;
-                // t.position += new Vector3(0,0,10);
-                Handheld.Vibrate();
-                Debug.Log(bundle.LoadAsset(world_name));
-                // Instantiate(bundle.LoadAsset(world_name));
-            }
-            // Unload the AssetBundles compressed contents to conserve memory
-            Debug.Log("download asset bundle");
-            bundle.Unload(false);
-            doARsState.goToNextState();
-            download = false;
-        } // memory is freed from the web stream (www.Dispose() gets called implicitly)
+            // Instantiate(bundle.LoadAsset(world_name));
+        }
+        // Unload the AssetBundles compressed contents to conserve memory
+        Debug.Log("download asset bundle");
+        bundle.Unload(false);
+        doARsState.goToNextState();
+        download = false;
+    } // memory is freed from the web stream (www.Dispose() gets called implicitly)
         
-    }
+    
 }
