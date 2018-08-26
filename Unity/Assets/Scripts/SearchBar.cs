@@ -32,7 +32,7 @@ public class SearchBar : MonoBehaviour
             search = bar.GetComponent<InputField>();
             search.text = "";
             doARsState.newSubmission = true;
-            doARsState.goToNextState();
+            doARsState.goToState(doARs_state.downloading);
             //Handheld.Vibrate();
         }
     }
