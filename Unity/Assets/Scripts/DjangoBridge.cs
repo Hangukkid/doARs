@@ -54,20 +54,27 @@ public class DjangoBridge : MonoBehaviour {
             Handheld.Vibrate();
             UnityEngine.Object[] list_of_worlds = bundle.LoadAllAssets();
             foreach (UnityEngine.Object world in list_of_worlds) {
-                GameObject core = GameObject.Find("ModifiedARCore");
-                Transform t = core.transform;
-                t.position += new Vector3(0,0,-1);
-                UnityEngine.Object clone = Instantiate(world);
-                Debug.Log(clone.name);
-                GameObject f = GameObject.Find(clone.name);
-                f.gameObject.AddComponent<SelfDestruct>();
+                // GameObject core = GameObject.Find("ModifiedARCore");
+                // Transform t = core.transform;
+                // t.position += new Vector3(0,0,-1);
+                try {
+                    UnityEngine.Object clone = Instantiate(world);
+                    Debug.Log(clone.name);
+                    GameObject f = GameObject.Find(clone.name);
+                    f.gameObject.AddComponent<SelfDestruct>();
+                    GameObject k = GameObject.Find("PortalWindow");
+                    k.GetComponent<Portal>().device = GameObject.Find("First Person Camera").transform;
+                }
+                catch {
+                    Debug.Log("Not available");
+                }
             }
             // Instantiate(bundle.LoadAsset(world_name));
         }
         // Unload the AssetBundles compressed contents to conserve memory
         Debug.Log("download asset bundle");
         bundle.Unload(false);
-        doARsState.goToState(doARs_state.choose_world);
+        doARsState.goToState(doARs_state.rest);
         download = false;
         StartCoroutine(Download_World());
     } // memory is freed from the web stream (www.Dispose() gets called implicitly)
