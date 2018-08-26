@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum doARs_state { choose_world, downloading, setup, rest };
+public enum doARs_state { choose_world, downloading, rest };
 
 /*
 A class dedicated to ordering the operations done by the app.
@@ -30,8 +30,6 @@ public static class doARsState
             case doARs_state.choose_world:
                 return doARs_state.downloading;
             case doARs_state.downloading:
-                return doARs_state.setup;
-            case doARs_state.setup:
                 return doARs_state.rest;
             default:
                 Debug.Log("error no next state");

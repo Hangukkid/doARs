@@ -28,6 +28,8 @@ public class SearchBar : MonoBehaviour
             bar = GameObject.Find("InputField");
             bar.SetActive(false);
 
+            doARsState.newSubmission = true;
+            doARsState.goToNextState();
             //Handheld.Vibrate();
         }
     }
@@ -35,6 +37,6 @@ public class SearchBar : MonoBehaviour
     public void Text_Changed(string newText)
     {
         doARsState.search = newText;
-        doARsState.newSubmission = true;
+
     }
 }
