@@ -6,6 +6,7 @@ var name = document.getElementById('file-name');
 form.onsubmit = function (event) {
     event.preventDefault();
 
+    var name = document.getElementById('file-name').value;
     // Update button text.
     uploadButton.innerHTML = 'Uploading...';
 
